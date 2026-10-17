@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Special Date ❤️</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffdde8, #f8b6cc, #e8c5ff);
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      padding: 35px 25px;
+      border-radius: 25px;
+      box-shadow: 0 12px 35px #9b476633;
+      text-align: center;
+    }
+
+    h1 {
+      color: #d63384;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="date"] {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: 1px solid #f1b6cd;
+      border-radius: 12px;
+      font-size: 16px;
+      background: #fff9fc;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #e84393;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #c21868;
+      transform: translateY(-2px);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .choice {
+      display: block;
+      text-align: left;
+      background: #fff0f6;
+      border: 1px solid #f5c3d8;
+      border-radius: 14px;
+      padding: 16px;
+      margin: 12px 0;
+      cursor: pointer;
+      color: #a61e63;
+    }
+
+    .choice input {
+      margin-right: 10px;
+      accent-color: #e84393;
+    }
+
+    .heart {
+      font-size: 45px;
+      margin-bottom: 10px;
+    }
+
+    #message {
+      color: #d63384;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- PAGE 1: LOGIN -->
+    <section id="loginPage">
+      <div class="heart">❤️</div>
+      <h1>Welcome, Love</h1>
+      <p>Enter your details to continue 💕</p>
+
+      <form id="loginForm">
+        <input
+          type="text"
+          id="username"
+          placeholder="User Name"
+          required
+        >
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          required
+        >
+
+        <button type="submit">Login ❤️</button>
+      </form>
+
+      <div id="loginMessage"></div>
+    </section>
+
+    <!-- PAGE 2: CALENDAR AND DATE TYPE -->
+    <section id="datePage" class="hidden">
+      <div class="heart">💗</div>
+      <h1>Choose Our Date</h1>
+      <p>When shall we make a special memory?</p>
+
+      <form id="dateForm">
+        <label for="date"><b>Choose a date 📅</b></label>
+
+        <input
+          type="date"
+          id="date"
+          required
+        >
+
+        <p><b>Choose your date time ✨</b></p>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="dateType"
+            value="Morning Date"
+            required
+          >
+          ☀️ Morning Date
+        </label>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="dateType"
+            value="Night Date"
+            required
+          >
+          🌙 Night Date
+        </label>
+
+        <button type="submit">Send Our Date 💌</button>
+      </form>
+
+      <div id="message"></div>
+    </section>
+
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const loginPage = document.getElementById("loginPage");
+    const datePage = document.getElementById("datePage");
+
+    // Login details
+    const correctUsername = "H";
+    const correctPassword = "Love";
+
+    loginForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const username =
+        document.getElementById("username").value;
+
+      const password =
+        document.getElementById("password").value;
+
+      if (
+        username === correctUsername &&
+        password === correctPassword
+      ) {
+        loginPage.classList.add("hidden");
+        datePage.classList.remove("hidden");
+      } else {
+        document.getElementById("loginMessage").textContent =
+          "Wrong username or password 💔";
+      }
+    });
+
+    // Prevent selecting a date in the past
+    const dateInput = document.getElementById("date");
+
+    const today = new Date();
+    const localToday = [
+      today.getFullYear(),
+      String(today.getMonth() + 1).padStart(2, "0"),
+      String(today.getDate()).padStart(2, "0")
+    ].join("-");
+
+    dateInput.min = localToday;
+
+    // Prepare the booking email
+    document.getElementById("dateForm").addEventListener(
+      "submit",
+      function(event) {
+        event.preventDefault();
+
+        const selectedDate = dateInput.value;
+        const dateType = document.querySelector(
+          'input[name="dateType"]:checked'
+        ).value;
+
+        const recipient = "mohammedabdullah076@icloud.com";
+
+        const subject = encodeURIComponent(
+          "Our Special Date ❤️"
+        );
+
+        const body = encodeURIComponent(
+          "Hello! ❤️\n\n" +
+          "A new date has been selected!\n\n" +
+          "Username: R\n" +
+          "Date: " + selectedDate + "\n" +
+          "Date type: " + dateType + "\n\n" +
+          "Made with love 💕"
+        );
+
+        document.getElementById("message").textContent =
+          "Opening your email app... 💌";
+
+        window.location.href =
+          "mailto:" + recipient +
+          "?subject=" + subject +
+          "&body=" + body;
+      }
+    );
+  </script>
+</body>
+</html>
